@@ -34,6 +34,14 @@ class TokenService {
     savedData.refreshToken = '';
     await TokenModel.updateOne(savedData);
   }
+
+  validateAccessToken(accessToken) {
+    try {
+      return jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    } catch (error) {
+      return null;
+    }
+  }
 }
 
 module.exports = new TokenService();
