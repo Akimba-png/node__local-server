@@ -12,4 +12,11 @@ userRouter.post(
   userController.signup
 );
 
+userRouter.post(
+  '/login',
+  validationService.createEmailValidation(),
+  validationService.createPasswordValidation(),
+  userController.login
+);
+
 module.exports = userRouter;

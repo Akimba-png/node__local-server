@@ -5,7 +5,7 @@ class ValidationService {
   validateRequest(req) {
     const validation = validationResult(req);
     if (!validation.isEmpty()) {
-      throw ApiError.badRequestError('validation error', validation.array());
+      throw ApiError.badRequest('validation error', validation.array());
     }
   }
 

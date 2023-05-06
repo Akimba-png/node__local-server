@@ -7,11 +7,11 @@ class ApiError extends Error {
     this.errors = errors;
   }
 
-  static unAuthorizedError() {
+  static unAuthorized() {
     return new ApiError(401, 'user is unauthorized');
   }
 
-  static badRequestError(message, errors = []) {
+  static badRequest(message, errors = []) {
     return new ApiError(400, message, errors);
   }
 }
