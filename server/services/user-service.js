@@ -47,6 +47,13 @@ class UserService {
       refreshToken: jwt.refreshToken,
     };
   }
+
+  async logout(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.badRequest('empty refreshToken cookies');
+    }
+    await tokenService.removeToken(refreshToken);
+  }
 }
 
 module.exports = new UserService();

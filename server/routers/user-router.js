@@ -19,4 +19,9 @@ userRouter.post(
   userController.login
 );
 
+userRouter.delete(
+  '/logout',
+  userController.logout
+);
+
 module.exports = userRouter;

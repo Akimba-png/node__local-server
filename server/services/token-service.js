@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const TokenModel = require('./../models/token-model');
+const ApiError = require('../exceptions/api-error');
 
 class TokenService {
   generateToken(data) {
@@ -23,6 +24,15 @@ class TokenService {
       refreshToken,
     };
     await TokenModel.create(payload);
+  }
+
+  async removeToken(refreshToken) {
+    const savedData = await TokenModel.findOne(refreshToken);
+    if (!savedData) {
+      throw ApiError.badRequest('unknown refreshToken cookies');
+    }
+    savedData.refreshToken = '';
+    await TokenModel.updateOne(savedData);
   }
 }
 
