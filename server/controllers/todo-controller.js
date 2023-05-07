@@ -30,7 +30,10 @@ class TodoController {
 
   async delete(req, res, next) {
     try {
-
+      const user = req.userData;
+      const todoId = req.params.id;
+      await todoService.delete(user.id, todoId);
+      res.status(200).json({ message: 'todo successfully deleted'} );
     } catch (error) {
       next(error);
     }
