@@ -24,4 +24,9 @@ userRouter.delete(
   userController.logout
 );
 
+userRouter.get(
+  '/refresh',
+  userController.refresh
+);
+
 module.exports = userRouter;

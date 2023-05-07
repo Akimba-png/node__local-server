@@ -54,6 +54,24 @@ class UserService {
     }
     await tokenService.removeToken(refreshToken);
   }
+
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.unAuthorized();
+    }
+    const jwtDecoded = tokenService.validateRefreshToken(refreshToken);
+    if (!jwtDecoded) {
+      throw ApiError.unAuthorized();
+    }
+    const userDto = new UserDto(jwtDecoded);
+    const jwt = tokenService.generateToken({...userDto});
+    await tokenService.saveToken(jwt.refreshToken, userDto.id);
+    userDto.accessToken = jwt.accessToken;
+    return {
+      updatedData: userDto,
+      updatedToken: jwt.refreshToken,
+    }
+  }
 }
 
 module.exports = new UserService();

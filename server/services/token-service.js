@@ -42,6 +42,14 @@ class TokenService {
       return null;
     }
   }
+
+  validateRefreshToken(refreshToken) {
+    try {
+      return jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
+    } catch (error) {
+      return null;
+    }
+  }
 }
 
 module.exports = new TokenService();
