@@ -1,8 +1,8 @@
 const path = require('path');
-const dbService = require('./../services/db-service');
+const dbService = require('../services/db-service');
 
-class TodoModel {
-  static filePath = path.resolve(__dirname, '..', 'database', 'todo-db.json');
+class PrivateModel {
+  static filePath = path.resolve(__dirname, '..', 'database', 'private-db.json');
 
   static async findOne(data) {
     return await dbService.findOne(this.filePath, data);
@@ -19,4 +19,4 @@ class TodoModel {
   }
 }
 
-module.exports = TodoModel;
+module.exports = PrivateModel;
