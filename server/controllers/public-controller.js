@@ -24,6 +24,13 @@ class PublicController {
 
   async update(req, res, next) {
     try {
+      const itemId = req.params.id;
+      const requestedDataToUpdate = req.body;
+      const updatedItem = await publicService.update(
+        itemId,
+        requestedDataToUpdate
+      );
+      res.status(200).json(updatedItem);
 
     } catch (error) {
       next(error);
