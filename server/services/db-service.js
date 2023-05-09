@@ -1,6 +1,14 @@
 const { readFile, writeFile } = require('node:fs/promises');
 
 class DbService {
+  async find(filePath, element) {
+    const dbData = await this.#readFile(filePath);
+    const filteredData = JSON.parse(dbData).filter((e) => {
+      return Object.values(e).includes(element);
+    });
+    return filteredData;
+  }
+
   async findOne(filePath, element) {
     const dbData = await this.#readFile(filePath);
     const filteredData = JSON.parse(dbData).find((e) => {

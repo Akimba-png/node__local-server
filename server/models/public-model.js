@@ -8,6 +8,10 @@ class PublicModel {
     await dbService.create(this.filePath, data);
     return data;
   }
+
+  static async find(data) {
+    return await dbService.find(this.filePath, data);
+  }
 }
 
 module.exports = PublicModel;

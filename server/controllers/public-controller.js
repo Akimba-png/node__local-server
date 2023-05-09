@@ -3,7 +3,9 @@ const publicService = require('./../services/public-service');
 class PublicController {
   async getItems(req, res, next) {
     try {
-
+      const path = req.itemPath;
+      const items = await publicService.getAll(path);
+      res.status(200).json(items);
     } catch (error) {
       next(error);
     }
