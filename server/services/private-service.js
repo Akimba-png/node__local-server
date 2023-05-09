@@ -21,6 +21,25 @@ class PrivateService {
     return itemDto;
   }
 
+  async update(userId, itemId, data) {
+    const storedUserItem = await PrivateModel.findOne(userId);
+    const itemToUpdate = storedUserItem.items.find((e) => e.id === itemId);
+    if (!itemToUpdate) {
+      throw ApiError.badRequest('unknown item id to update');
+    }
+    for (const prop in data) {
+      if (Object.hasOwn(data, prop)) {
+        if (prop in itemToUpdate) {
+          itemToUpdate[prop] = data[prop];
+        } else {
+          throw ApiError.badRequest('uncorrect data to update');
+        }
+      }
+    }
+    await PrivateModel.updateOne(storedUserItem);
+    return itemToUpdate;
+  }
+
   async delete(userId, itemId) {
     const storedUserItem = await PrivateModel.findOne(userId);
     if (!storedUserItem) {

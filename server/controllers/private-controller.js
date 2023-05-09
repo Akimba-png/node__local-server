@@ -26,7 +26,15 @@ class PrivateController {
 
   async update(req, res, next) {
     try {
-
+      const user = req.userData;
+      const itemIdToUpdate = req.params.id;
+      const requestedDataToUpdate = req.body;
+      const updatedItem = await privateService.update(
+        user.id,
+        itemIdToUpdate,
+        requestedDataToUpdate
+      );
+      res.status(200).json(updatedItem);
     } catch (error) {
       next(error);
     }
