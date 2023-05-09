@@ -12,6 +12,11 @@ class PublicModel {
   static async find(data) {
     return await dbService.find(this.filePath, data);
   }
+
+  static async update(data) {
+    await dbService.update(this.filePath, data);
+    return;
+  }
 }
 
 module.exports = PublicModel;

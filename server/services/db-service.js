@@ -3,10 +3,13 @@ const { readFile, writeFile } = require('node:fs/promises');
 class DbService {
   async find(filePath, element) {
     const dbData = await this.#readFile(filePath);
-    const filteredData = JSON.parse(dbData).filter((e) => {
-      return Object.values(e).includes(element);
-    });
-    return filteredData;
+    const parsedData = JSON.parse(dbData);
+    if (element) {
+      return parsedData.filter((e) => {
+        return Object.values(e).includes(element);
+      });
+    }
+    return parsedData;
   }
 
   async findOne(filePath, element) {
@@ -15,6 +18,10 @@ class DbService {
       return Object.values(e).includes(element);
     });
     return filteredData;
+  }
+
+  async update(filePath, element) {
+    await this.#writeFile(filePath, JSON.stringify(element));
   }
 
   async updateOne(filePath, element) {

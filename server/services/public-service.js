@@ -1,4 +1,5 @@
 const PublicModel = require('./../models/public-model');
+const ApiError = require('./../exceptions/api-error');
 const ItemDto = require('./../dtos/item-dto');
 
 class PublicService {
@@ -11,6 +12,18 @@ class PublicService {
   async getAll(path) {
     const storedItems = await PublicModel.find(path);
     return storedItems.map((e) => new ItemDto(e));
+  }
+
+  async delete(itemId) {
+    const storedItems = await PublicModel.find();
+    if (!storedItems.length) {
+      throw ApiError.badRequest('nothing yet saved here');
+    }
+    const updatedItems = storedItems.filter((e) => e.id !== itemId);
+    if (storedItems.length === updatedItems.length) {
+      throw ApiError.badRequest('nothing to delete here');
+    }
+    await PublicModel.update(updatedItems);
   }
 }
 

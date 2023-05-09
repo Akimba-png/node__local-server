@@ -32,7 +32,9 @@ class PublicController {
 
   async delete(req, res, next) {
     try {
-
+      const itemId = req.params.id;
+      await publicService.delete(itemId);
+      res.status(200).json({ message: 'item successfully deleted' });
     } catch (error) {
       next(error);
     }
