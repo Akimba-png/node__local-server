@@ -4,13 +4,14 @@ const userRouter = require('./routers/user-router');
 const privateRouter = require('./routers/private-router');
 const errorMiddleware = require('./middlewares/error-middleware');
 const authMiddleware = require('./middlewares/auth-middleware');
+const pathMiddleware = require('./middlewares/path-middleware');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use('/', userRouter);
-app.use('/private', authMiddleware, privateRouter);
+app.use('/private', authMiddleware, pathMiddleware, privateRouter);
 app.use(errorMiddleware);
 
 const appInit = () => {

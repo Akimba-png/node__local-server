@@ -3,7 +3,10 @@ const privateService = require('./../services/private-service');
 class PrivateController {
   async getItems(req, res, next) {
     try {
-
+      const user = req.userData;
+      const path = req.itemPath;
+      const items = await privateService.getAll(user.id, path);
+      res.status(200).json(items);
     } catch (error) {
       next(error);
     }
@@ -13,6 +16,7 @@ class PrivateController {
     try {
       const user = req.userData;
       const requestedItem = req.body;
+      requestedItem.systemGroup = req.itemPath;
       const createdItem = await privateService.create(user.id, requestedItem);
       res.status(201).json(createdItem);
     } catch (error) {
@@ -33,7 +37,7 @@ class PrivateController {
       const user = req.userData;
       const itemId = req.params.id;
       await privateService.delete(user.id, itemId);
-      res.status(200).json({ message: 'item successfully deleted'} );
+      res.status(200).json({ message: 'item successfully deleted' });
     } catch (error) {
       next(error);
     }

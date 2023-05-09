@@ -4,7 +4,7 @@ const privateController = require('../controllers/private-controller');
 const privateRouter = new Router();
 
 privateRouter.get(
-  '/items',
+  '/item',
   privateController.getItems
 );
 
