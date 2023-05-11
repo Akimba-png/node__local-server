@@ -1,26 +1,32 @@
 const Router = require('express');
 const publicController = require('./../controllers/public-controller');
 
-const publicRouter = new Router();
+class PublicRouter {
+  create(path = 'item') {
+    const router = new Router();
 
-publicRouter.get(
-  '/item',
-  publicController.getItems
-);
+    router.get(
+      `/${path}`,
+      publicController.getItems
+    );
 
-publicRouter.post(
-  '/item',
-  publicController.create
-);
+    router.post(
+      `/${path}`,
+      publicController.create
+    );
 
-publicRouter.patch(
-  '/item/:id',
-  publicController.update
-);
+    router.patch(
+      `/${path}/:id`,
+      publicController.update
+    );
 
-publicRouter.delete(
-  '/item/:id',
-  publicController.delete
-);
+    router.delete(
+      `/${path}/:id`,
+      publicController.delete
+    );
 
-module.exports = publicRouter;
+    return router;
+  }
+}
+
+module.exports = new PublicRouter();

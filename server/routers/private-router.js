@@ -1,26 +1,32 @@
 const Router = require('express');
 const privateController = require('../controllers/private-controller');
 
-const privateRouter = new Router();
+class PrivateRouter {
+  create(path = 'item') {
+    const router = new Router();
 
-privateRouter.get(
-  '/item',
-  privateController.getItems
-);
+    router.get(
+      `/${path}`,
+      privateController.getItems
+    );
 
-privateRouter.post(
-  '/item',
-  privateController.create
-);
+    router.post(
+      `/${path}`,
+      privateController.create
+    );
 
-privateRouter.patch(
-  '/item/:id',
-  privateController.update
-);
+    router.patch(
+      `/${path}/:id`,
+      privateController.update
+    );
 
-privateRouter.delete(
-  '/item/:id',
-  privateController.delete
-);
+    router.delete(
+      `/${path}/:id`,
+      privateController.delete
+    );
 
-module.exports = privateRouter;
+    return router;
+  }
+}
+
+module.exports = new PrivateRouter();

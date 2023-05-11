@@ -12,8 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use('/auth', userRouter);
-app.use('/public', pathMiddleware, publicRouter);
-app.use('/private', authMiddleware, pathMiddleware, privateRouter);
+app.use('/public', pathMiddleware, publicRouter.create('item'));
+app.use('/private', authMiddleware, pathMiddleware, privateRouter.create('item'));
 app.use(errorMiddleware);
 
 const appInit = () => {
