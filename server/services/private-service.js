@@ -21,9 +21,11 @@ class PrivateService {
     return itemDto;
   }
 
-  async update(userId, itemId, data) {
+  async update(userId, itemId, path, data) {
     const storedUserItem = await PrivateModel.findOne(userId);
-    const itemToUpdate = storedUserItem.items.find((e) => e.id === itemId);
+    const itemToUpdate = storedUserItem.items.find((e) => {
+      return e.id.toString() === itemId && e.systemGroup === path;
+    });
     if (!itemToUpdate) {
       throw ApiError.badRequest('unknown item id to update');
     }
@@ -40,12 +42,14 @@ class PrivateService {
     return itemToUpdate;
   }
 
-  async delete(userId, itemId) {
+  async delete(userId, itemId, path) {
     const storedUserItem = await PrivateModel.findOne(userId);
     if (!storedUserItem) {
       throw ApiError.badRequest('nothing yet saved here');
     }
-    const updatedItems = storedUserItem.items.filter((e) => e.id !== itemId);
+    const updatedItems = storedUserItem.items.reduce((acc, e) => {
+      return e.id.toString() === itemId && e.systemGroup === path ? acc : [...acc, e];
+    }, []);
     if (storedUserItem.items.length === updatedItems.length) {
       throw ApiError.badRequest('nothing to delete here');
     }

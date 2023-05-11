@@ -26,12 +26,14 @@ class PrivateController {
 
   async update(req, res, next) {
     try {
+      const path = req.itemPath;
       const user = req.userData;
       const itemIdToUpdate = req.params.id;
       const requestedDataToUpdate = req.body;
       const updatedItem = await privateService.update(
         user.id,
         itemIdToUpdate,
+        path,
         requestedDataToUpdate
       );
       res.status(200).json(updatedItem);
@@ -42,9 +44,10 @@ class PrivateController {
 
   async delete(req, res, next) {
     try {
+      const path = req.itemPath;
       const user = req.userData;
       const itemId = req.params.id;
-      await privateService.delete(user.id, itemId);
+      await privateService.delete(user.id, itemId, path);
       res.status(200).json({ message: 'item successfully deleted' });
     } catch (error) {
       next(error);

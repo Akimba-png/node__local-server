@@ -24,10 +24,12 @@ class PublicController {
 
   async update(req, res, next) {
     try {
+      const path = req.itemPath;
       const itemId = req.params.id;
       const requestedDataToUpdate = req.body;
       const updatedItem = await publicService.update(
         itemId,
+        path,
         requestedDataToUpdate
       );
       res.status(200).json(updatedItem);
@@ -39,8 +41,9 @@ class PublicController {
 
   async delete(req, res, next) {
     try {
+      const path = req.itemPath;
       const itemId = req.params.id;
-      await publicService.delete(itemId);
+      await publicService.delete(itemId, path);
       res.status(200).json({ message: 'item successfully deleted' });
     } catch (error) {
       next(error);

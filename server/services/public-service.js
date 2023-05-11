@@ -14,24 +14,26 @@ class PublicService {
     return storedItems.map((e) => new ItemDto(e));
   }
 
-  async delete(itemId) {
+  async delete(itemId, path) {
     const storedItems = await PublicModel.find();
     if (!storedItems.length) {
       throw ApiError.badRequest('nothing yet saved here');
     }
-    const updatedItems = storedItems.filter((e) => e.id !== itemId);
+    const updatedItems = storedItems.reduce((acc, e) => {
+      return e.id.toString() === itemId && e.systemGroup === path ? acc : [...acc, e];
+    }, []);
     if (storedItems.length === updatedItems.length) {
       throw ApiError.badRequest('nothing to delete here');
     }
     await PublicModel.update(updatedItems);
   }
 
-  async update(itemId, data) {
+  async update(itemId, path, data) {
     const storedItems = await PublicModel.find();
     if (!storedItems.length) {
       throw ApiError.badRequest('nothing to update here')
     }
-    const itemToUpdate = storedItems.find((e) => e.id === itemId);
+    const itemToUpdate = storedItems.find((e) => e.id.toString() === itemId && e.systemGroup === path);
     if (!itemToUpdate) {
       throw ApiError.badRequest('unknown item id to update');
     }
