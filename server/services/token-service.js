@@ -4,8 +4,8 @@ const ApiError = require('../exceptions/api-error');
 
 class TokenService {
   generateToken(data) {
-    const accessToken = jwt.sign(data, process.env.JWT_ACCESS_KEY, {expiresIn: '10min'});
-    const refreshToken = jwt.sign(data, process.env.JWT_REFRESH_KEY, {expiresIn: '60min'});
+    const accessToken = jwt.sign(data, process.env.JWT_ACCESS_KEY, {expiresIn: '360min'});
+    const refreshToken = jwt.sign(data, process.env.JWT_REFRESH_KEY, {expiresIn: '360min'});
     return {
       accessToken,
       refreshToken,
